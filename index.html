@@ -30,11 +30,10 @@
         }
 
         .box {
-            display: none; /* Masqué au début */
             margin: 20px auto;
             padding: 20px;
             width: 50%;
-            background: rgba(0, 0, 0, 0.6); /* Cadran semi-transparent */
+            background: rgba(128, 128, 128, 0.7); /* Cadran semi-transparent gris */
             border-radius: 8px;
         }
 
@@ -77,9 +76,9 @@
 </head>
 <body>
 
-    <h1 id="welcome">Bienvenue sur la plateforme de Jean Zounglas</h1>
+    <h1 id="welcome">BIENVENUE SUR LA PLATEFORME DE JEAN ZOUNGLAS</h1>
 
-    <div id="register" class="box" style="display: block;">
+    <div id="register">
         <h1>Ton Nom:</h1>
         <form onsubmit="register(); return false;">
             <input type="text" id="name" required>
@@ -87,7 +86,7 @@
         </form>
     </div>
 
-    <div id="userAdd" class="box">
+    <div id="userAdd" class="box" style="display: none;">
         <h1>Se Connecter à un autre utilisateur:</h1>
         <form onsubmit="appelUser(); return false;">
             <input type="text" id="add" required>
@@ -95,7 +94,7 @@
         </form>
     </div>
 
-    <div id="userShare" class="box">
+    <div id="userShare" class="box" style="display: none;">
         <h1>Partager son écran:</h1>
         <form onsubmit="addScreenShare(); return false;">
             <input type="text" id="share" required>
@@ -106,6 +105,15 @@
     <div id="participants"></div>
 
     <button id="stopRecording" onclick="stopRecording()">Arrêter l'enregistrement</button>
+
+    <script>
+        function register() {
+            document.getElementById('register').style.display = 'none';
+            document.getElementById('userAdd').style.display = 'block';
+            document.getElementById('userShare').style.display = 'block';
+            document.getElementById('stopRecording').style.display = 'block';
+        }
+    </script>
 
 </body>
 </html>
