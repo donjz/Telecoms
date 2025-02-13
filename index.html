@@ -23,24 +23,25 @@
         }
 
         #welcome {
-            font-size: 3.5em; /* Augmentation de la taille du texte */
+            font-size: 3.5em;
             font-weight: bold;
             text-transform: uppercase;
             margin-bottom: 20px;
         }
 
-        #register, #userAdd, #userShare {
-            margin-top: 20px;
-            border-radius: 8px;
+        .box {
+            display: none; /* Masqué au début */
+            margin: 20px auto;
             padding: 20px;
-            background: none;
-            color: white;
+            width: 50%;
+            background: rgba(0, 0, 0, 0.6); /* Cadran semi-transparent */
+            border-radius: 8px;
         }
 
         input[type="text"], input[type="submit"] {
             padding: 10px;
             margin-top: 10px;
-            font-size: 1.2em; /* Agrandir les champs */
+            font-size: 1.2em;
             border: 1px solid #00BFFF;
             border-radius: 5px;
             background-color: #333;
@@ -78,7 +79,7 @@
 
     <h1 id="welcome">Bienvenue sur la plateforme de Jean Zounglas</h1>
 
-    <div id="register">
+    <div id="register" class="box" style="display: block;">
         <h1>Ton Nom:</h1>
         <form onsubmit="register(); return false;">
             <input type="text" id="name" required>
@@ -86,7 +87,7 @@
         </form>
     </div>
 
-    <div id="userAdd" style="display: none;">
+    <div id="userAdd" class="box">
         <h1>Se Connecter à un autre utilisateur:</h1>
         <form onsubmit="appelUser(); return false;">
             <input type="text" id="add" required>
@@ -94,7 +95,7 @@
         </form>
     </div>
 
-    <div id="userShare" style="display: none;">
+    <div id="userShare" class="box">
         <h1>Partager son écran:</h1>
         <form onsubmit="addScreenShare(); return false;">
             <input type="text" id="share" required>
