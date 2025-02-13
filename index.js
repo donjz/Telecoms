@@ -1,5 +1,8 @@
 var peer;
 var myStream;
+var mediaRecorder;
+var recordedChunks = [];
+
 function ajoutVideo(stream) {
     try {
         var video = document.createElement('video');
@@ -16,21 +19,28 @@ function register() {
     var name = document.getElementById('name').value;
     try {
         peer = new Peer(name);
-        navigator.getUserMedia({ video: true, audio: true }, function (stream) {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
             myStream = stream;
             ajoutVideo(stream);
+
+            // Afficher les options après inscription
             document.getElementById('register').style.display = 'none';
             document.getElementById('userAdd').style.display = 'block';
             document.getElementById('userShare').style.display = 'block';
-            // Afficher le bouton "Arrêter l'enregistrement" après avoir rejoint la session
-            document.getElementById('stopButton').style.display = 'inline-block';
-            peer.on('call', function (call) {
+            document.getElementById('stopRecording').style.display = 'block';
+
+            // Gérer les appels entrants
+            peer.on('call', function(call) {
                 call.answer(myStream);
-                call.on('stream', function (remoteStream) {
+                call.on('stream', function(remoteStream) {
                     ajoutVideo(remoteStream);
                 });
             });
-        }, function (err) {
+
+            // Démarrer l'enregistrement
+            startRecording(stream);
+
+        }).catch(err => {
             console.log('Failed to get local stream', err);
         });
     } catch (error) {
@@ -43,7 +53,7 @@ function appelUser() {
         var name = document.getElementById('add').value;
         document.getElementById('add').value = "";
         var call = peer.call(name, myStream);
-        call.on('stream', function (remoteStream) {
+        call.on('stream', function(remoteStream) {
             ajoutVideo(remoteStream);
         });
     } catch (error) {
@@ -60,11 +70,35 @@ function addScreenShare() {
         });
 }
 
+// Fonction pour démarrer l'enregistrement
+function startRecording(stream) {
+    recordedChunks = [];
+    mediaRecorder = new MediaRecorder(stream);
+
+    mediaRecorder.ondataavailable = function(event) {
+        if (event.data.size > 0) {
+            recordedChunks.push(event.data);
+        }
+    };
+
+    mediaRecorder.onstop = function() {
+        var blob = new Blob(recordedChunks, { type: 'video/webm' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'enregistrement.webm';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    };
+
+    mediaRecorder.start();
+}
+
+// Fonction pour arrêter l'enregistrement
 function stopRecording() {
-    if (myStream) {
-        let tracks = myStream.getTracks();
-        tracks.forEach(track => track.stop());  // Arrêter tous les flux vidéo et audio
-        myStream = null;
-        document.getElementById('stopButton').style.display = 'none'; // Cacher le bouton après arrêt
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+        mediaRecorder.stop();
+        document.getElementById('stopRecording').style.display = 'none'; // Cacher le bouton après arrêt
     }
 }
