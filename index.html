@@ -3,33 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plateforme de Jean Zounglas</title>
+    <title>Plateforme Télécoms</title>
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
-    <script src="./index.js" defer></script>
-
+    <script src="./index.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
             background: url('OIP.jpg') no-repeat center center fixed;
-            background-size: cover; /* Ajuste l'image pour qu'elle couvre toute la page */
+            background-size: cover;
             color: white; /* Texte blanc */
             text-align: center;
             padding: 20px;
         }
 
-        h1, h2 {
+        h1 {
             font-size: 2.5em;
-            color: white; /* Titres en blanc */
-            text-shadow: 2px 2px 5px black; /* Ombre pour améliorer la lisibilité */
+            color: white;
+            text-shadow: 2px 2px 5px black;
         }
 
+        #welcome {
+            font-size: 2em;
+            font-weight: bold;
+            text-transform: uppercase; /* Met le texte en majuscules */
+            margin-bottom: 20px;
+        }
+
+        /* Suppression du fond semi-transparent */
         #register, #userAdd, #userShare {
             margin-top: 20px;
-            background-color: rgba(28, 28, 28, 0.8); /* Fond semi-transparent */
             border-radius: 8px;
             padding: 20px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            color: white; /* Texte blanc */
+            background: none; /* Supprime le fond */
+            color: white;
         }
 
         input[type="text"], input[type="submit"] {
@@ -38,7 +44,7 @@
             font-size: 1em;
             border: 1px solid #00BFFF;
             border-radius: 5px;
-            background-color: #333333;
+            background-color: #333;
             color: white;
         }
 
@@ -52,51 +58,55 @@
             background-color: #0056b3;
         }
 
-        #stopButton {
+        #stopRecording {
+            display: none; /* Masqué par défaut */
+            margin-top: 20px;
+            padding: 10px;
             background-color: red;
             color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
             font-size: 1.2em;
-            margin-top: 20px;
+            border: none;
             border-radius: 5px;
-            display: none;
+            cursor: pointer;
         }
 
-        #stopButton:hover {
+        #stopRecording:hover {
             background-color: darkred;
         }
     </style>
 </head>
 <body>
+
+    <h1 id="welcome">Bienvenue sur la plateforme de Jean Zounglas</h1>
+
     <div id="register">
-        <h1>Bienvenue sur la plateforme de Jean Zounglas</h1>
-        <h2>Ton Nom:</h2>
-        <form onsubmit="register(); return false;" accept-charset="UTF-8">
-            <input type="text" name="name" value="" id="name" required>
+        <h1>Ton Nom:</h1>
+        <form onsubmit="register(); return false;">
+            <input type="text" id="name" required>
             <input type="submit" value="Join!">
         </form>
     </div>
 
     <div id="userAdd" style="display: none;">
         <h1>Se Connecter à un autre utilisateur:</h1>
-        <form onsubmit="appelUser(); return false;" accept-charset="UTF-8">
-            <input type="text" name="name" value="" id="add" required>
+        <form onsubmit="appelUser(); return false;">
+            <input type="text" id="add" required>
             <input type="submit" value="Add">
         </form>
     </div>
 
     <div id="userShare" style="display: none;">
         <h1>Partager son écran:</h1>
-        <form onsubmit="addScreenShare(); return false;" accept-charset="UTF-8">
-            <input type="text" name="name" value="" id="share" required>
+        <form onsubmit="addScreenShare(); return false;">
+            <input type="text" id="share" required>
             <input type="submit" value="Share">
         </form>
     </div>
 
     <div id="participants"></div>
 
-    <button id="stopButton" onclick="stopRecording()">Arrêter l'enregistrement</button>
+    <button id="stopRecording" onclick="stopRecording()">Arrêter l'enregistrement</button>
+
 </body>
 </html>
+
