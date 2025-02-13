@@ -1,0 +1,88 @@
+<html>
+<head>
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <script src="./index.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+        }
+
+        #register, #userAdd, #userShare {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 8px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007BFF;
+        }
+
+        input[type="text"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        #participants video {
+            margin: 10px;
+            border: 3px solid #007BFF;
+            border-radius: 10px;
+        }
+
+        #welcomeMessage {
+            font-size: 1.2em;
+            color: #444;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="welcomeMessage">
+        <h1>Bienvenue sur la plateforme de Jean Zounglas!</h1>
+    </div>
+
+    <div id="register">
+        <h1>Ton Nom:</h1>
+        <form onsubmit="register(); return false;" accept-charset="UTF-8">
+            <input type="text" name="name" value="" id="name" required>
+            <input type="submit" value="Join!">
+        </form>
+    </div>
+    
+    <div id="userAdd" style="display: none;">
+        <h1>Se Connecter à un autre utilisateur:</h1>
+        <form onsubmit="appelUser(); return false;" accept-charset="UTF-8">
+            <input type="text" name="name" value="" id="add" required>
+            <input type="submit" value="Add">
+        </form>
+    </div>
+    
+    <div id="userShare" style="display: none;">
+        <h1>Partager son écran:</h1>
+        <form onsubmit="addScreenShare(); return false;" accept-charset="UTF-8">
+            <input type="text" name="name" value="" id="share" required>
+            <input type="submit" value="Share">
+        </form>
+    </div>
+    
+    <div id="participants"></div>
+</body>
+</html>
