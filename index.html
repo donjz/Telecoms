@@ -51,7 +51,9 @@
 <body>
     <div id="register">
         <h1>Bienvenue sur la plateforme de Jean Zounglas</h1>
+        <!-- Champ pour entrer son nom -->
         <form onsubmit="register(); return false;" accept-charset="UTF-8">
+            <label for="name">Ton Nom :</label>
             <input type="text" name="name" value="" id="name" required>
             <input type="submit" value="Join!">
         </form>
@@ -79,4 +81,3 @@
     <button id="stopButton" onclick="stopRecording()">Arrêter l'enregistrement</button>
 </body>
 </html>
-
