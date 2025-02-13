@@ -1,66 +1,22 @@
-<!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plateforme de Jean Zounglas</title>
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
-    <script src="./index.js" defer></script>
-
-    <!-- Ajout du CSS directement dans le fichier HTML -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-image: url('background-image.jpg'); /* Remplace par le chemin de ton image */
-            background-size: cover;
-            background-position: center;
-            color: white; /* Texte en blanc */
-            text-align: center;
-        }
-
-        #register, #userAdd, #userShare, #participants {
-            margin-top: 20px;
-        }
-
-        h1 {
-            font-size: 2em;
-        }
-
-        input[type="text"], input[type="submit"] {
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 1em;
-        }
-
-        /* Bouton pour arrêter l'enregistrement */
-        #stopButton {
-            background-color: red;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2em;
-            margin-top: 20px;
-        }
-
-        #stopButton:hover {
-            background-color: darkred;
-        }
-    </style>
+    <script src="./index.js"></script>
 </head>
 <body>
     <div id="register">
+        <!-- Texte d'accueil ajouté -->
         <h1>Bienvenue sur la plateforme de Jean Zounglas</h1>
-        <!-- Champ pour entrer son nom -->
+        
+        <h2>Ton Nom:</h2>
         <form onsubmit="register(); return false;" accept-charset="UTF-8">
-            <label for="name">Ton Nom :</label>
             <input type="text" name="name" value="" id="name" required>
             <input type="submit" value="Join!">
         </form>
     </div>
 
     <div id="userAdd" style="display: none;">
-        <h1>Se Connecter à un autre utilisateur :</h1>
+        <h1>Se Connecter à un autre utilisateur:</h1>
         <form onsubmit="appelUser(); return false;" accept-charset="UTF-8">
             <input type="text" name="name" value="" id="add" required>
             <input type="submit" value="Add">
@@ -68,7 +24,7 @@
     </div>
 
     <div id="userShare" style="display: none;">
-        <h1>Partager son écran :</h1>
+        <h1>Partager son écran:</h1>
         <form onsubmit="addScreenShare(); return false;" accept-charset="UTF-8">
             <input type="text" name="name" value="" id="share" required>
             <input type="submit" value="Share">
@@ -76,8 +32,5 @@
     </div>
 
     <div id="participants"></div>
-
-    <!-- Bouton pour arrêter l'enregistrement -->
-    <button id="stopButton" onclick="stopRecording()">Arrêter l'enregistrement</button>
 </body>
 </html>
