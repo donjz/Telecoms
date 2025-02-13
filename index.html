@@ -72,6 +72,12 @@
         #stopRecording:hover {
             background-color: darkred;
         }
+
+        #participants video {
+            width: 100%;
+            max-width: 500px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -102,16 +108,80 @@
         </form>
     </div>
 
-    <div id="participants"></div>
+    <div id="participants">
+        <!-- La vidéo de l'utilisateur local sera affichée ici -->
+    </div>
 
     <button id="stopRecording" onclick="stopRecording()">Arrêter l'enregistrement</button>
 
     <script>
+        var peer;
+        var myStream;
+
+        function ajoutVideo(stream) {
+            try {
+                var video = document.createElement('video');
+                document.getElementById('participants').appendChild(video);
+                video.autoplay = true;
+                video.controls = true;
+                video.srcObject = stream;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
         function register() {
-            document.getElementById('register').style.display = 'none';
-            document.getElementById('userAdd').style.display = 'block';
-            document.getElementById('userShare').style.display = 'block';
-            document.getElementById('stopRecording').style.display = 'block';
+            var name = document.getElementById('name').value;
+            try {
+                peer = new Peer(name);
+                navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                    .then(function(stream) {
+                        myStream = stream;
+                        ajoutVideo(stream);
+                        document.getElementById('register').style.display = 'none';
+                        document.getElementById('userAdd').style.display = 'block';
+                        document.getElementById('userShare').style.display = 'block';
+                        document.getElementById('stopRecording').style.display = 'block';
+                        document.getElementById('welcome').style.display = 'none'; // Cache la phrase après l'inscription
+                    })
+                    .catch(function(err) {
+                        console.log('Failed to get local stream', err);
+                    });
+                peer.on('call', function(call) {
+                    call.answer(myStream);
+                    call.on('stream', function(remoteStream) {
+                        ajoutVideo(remoteStream);
+                    });
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        function appelUser() {
+            var name = document.getElementById('add').value;
+            document.getElementById('add').value = ""; 
+            var call = peer.call(name, myStream);
+            call.on('stream', function(remoteStream) {
+                ajoutVideo(remoteStream);
+            });
+        }
+
+        function addScreenShare() {
+            var name = document.getElementById('share').value;
+            document.getElementById('share').value = "";
+            navigator.mediaDevices.getDisplayMedia({ video: { cursor: "always" }, audio: true })
+                .then((stream) => {
+                    let call = peer.call(name, stream);
+                });
+        }
+
+        function stopRecording() {
+            // Code pour arrêter l'enregistrement (ex: stop streams)
+            if (myStream) {
+                myStream.getTracks().forEach(track => track.stop());
+                document.getElementById('stopRecording').style.display = 'none';
+            }
         }
     </script>
 
